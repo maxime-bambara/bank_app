@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\BankerRepository;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -44,9 +46,15 @@ class Banker implements UserInterface
     private $password;
 
     /**
-     * @ORM\OneToOne(targetEntity=User::class, mappedBy="banker", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=User::class, mappedBy="banker")
      */
-    private $customer;
+    private $customers;
+
+    public function __construct()
+    {
+        $this->customers = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -123,24 +131,32 @@ class Banker implements UserInterface
         // $this->plainPassword = null;
     }
 
-    public function getCustomer(): ?User
+    /**
+     * @return Collection|User[]
+     */
+    public function getCustomers(): Collection
     {
-        return $this->customer;
+        return $this->customers;
     }
 
-    public function setCustomer(?User $customer): self
+    public function addCustomer(User $customer): self
     {
-        // unset the owning side of the relation if necessary
-        if ($customer === null && $this->customer !== null) {
-            $this->customer->setBanker(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($customer !== null && $customer->getBanker() !== $this) {
+        if (!$this->customers->contains($customer)) {
+            $this->customers[] = $customer;
             $customer->setBanker($this);
         }
 
-        $this->customer = $customer;
+        return $this;
+    }
+
+    public function removeCustomer(User $customer): self
+    {
+        if ($this->customers->removeElement($customer)) {
+            // set the owning side to null (unless already changed)
+            if ($customer->getBanker() === $this) {
+                $customer->setBanker(null);
+            }
+        }
 
         return $this;
     }

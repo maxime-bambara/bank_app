@@ -24,7 +24,7 @@ class Admin implements UserInterface
      * @Assert\NotBlank()
      * @Assert\Length(
      *      min = 2,
-     *      max = 50,
+     *      max = 10,
      *      minMessage = "Your username must be at least {{ limit }} characters long",
      *      maxMessage = "Your username cannot be longer than {{ limit }} characters"
      * )

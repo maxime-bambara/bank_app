@@ -3,9 +3,9 @@
 namespace App\Entity\Tests;
 
 use App\Entity\Admin;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use PHPUnit\Framework\TestCase;
 
-class AdminTest extends KernelTestCase
+class AdminTest extends TestCase
 {
     public function getEntity (){
         return (new Admin())
@@ -13,29 +13,29 @@ class AdminTest extends KernelTestCase
         ->setPassword('0000');
     }
 
-    public function assertHasErrors (Admin $admin, int $number=0){
-        self::bootKernel();
-        $error = self::$container->get('validator')->validate($admin);
-        $this->assertCount($number, $error);
+    public function testValidUsername (){
+        $this->assertEquals('Mr Laurent', $this->getEntity()->getUsername());
     }
 
-    public function testValidAdmin(){
-        $this->assertHasErrors($this->getEntity(), 0);
+    public function testNotValidUsername(){
+        $this->assertNotEquals('Mr Laurent', $this->getEntity()->setPassword('0000')->getPassword());
     }
 
-    public function testBlankUsernameAdmin(){
-        $this->assertHasErrors($this->getEntity()->setUsername(''), 2);
+    public function testValidPassword(){
+        $this->assertEquals('0000', $this->getEntity()->getPassword());
     }
 
-    public function testSizeUsernameAdmin(){
-        $this->assertHasErrors($this->getEntity()->setUsername('a'), 1);
-        $this->assertHasErrors($this->getEntity()->setUsername('ezubcuzfeuozefuejdzcufehzeihzduoefjlhiouhfehledizdhefzoihizefhhfezuihefiozhjifhe'), 1);
+    public function testNotValidPassword(){
+        $this->assertNotEquals('0000', $this->getEntity()->setUsername('0001')->getUsername());
     }
 
-    public function testRole(){
+
+    public function testValidRole(){
         $this->assertEquals(['ROLE_ADMIN'], $this->getEntity()->getRoles());
+    }
+
+    public function testNotValidRole(){
         $this->assertNotEquals(['ROLE_BANKER'], $this->getEntity()->getRoles());
         $this->assertNotEquals(['ROLE_USER'], $this->getEntity()->getRoles());
-
     }
 }

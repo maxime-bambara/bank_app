@@ -53,11 +53,6 @@ class User implements UserInterface
      */
     private $password;
 
-    /**
-     * @ORM\OneToOne(targetEntity=Banker::class, inversedBy="customer", cascade={"persist"})
-     * @Assert\NotBlank()
-     */
-    private $banker;
 
     /**
      * @ORM\Column(type="string", length=50)
@@ -146,6 +141,12 @@ class User implements UserInterface
      */
     private $fileIdCardImg;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Banker::class, inversedBy="customers")
+     */
+    private $banker;
+
+
     public function __construct()
     {
         $this->beneficiaries = new ArrayCollection();
@@ -231,18 +232,6 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
-    }
-
-    public function getBanker(): ?Banker
-    {
-        return $this->banker;
-    }
-
-    public function setBanker(?Banker $banker): self
-    {
-        $this->banker = $banker;
-
-        return $this;
     }
 
     public function getLastName(): ?string
@@ -427,4 +416,18 @@ class User implements UserInterface
     {
         $this->fichierImage = $fichierImage;
     }
+
+    public function getBanker(): ?Banker
+    {
+        return $this->banker;
+    }
+
+    public function setBanker(?Banker $banker): self
+    {
+        $this->banker = $banker;
+
+        return $this;
+    }
+
+
 }
