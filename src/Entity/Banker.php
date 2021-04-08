@@ -2,9 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\BankerRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\BankerRepository;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass=BankerRepository::class)
@@ -19,7 +21,14 @@ class Banker implements UserInterface
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=180, unique=true)
+     * @ORM\Column(type="string", length=50, unique=true)
+     * @Assert\NotBlank()
+     *     * @Assert\Length(
+     *      min = 2,
+     *      max = 50,
+     *      minMessage = "Your username must be at least {{ limit }} characters long",
+     *      maxMessage = "Your ursername cannot be longer than {{ limit }} characters"
+     * )
      */
     private $username;
 
@@ -35,7 +44,7 @@ class Banker implements UserInterface
     private $password;
 
     /**
-     * @ORM\OneToOne(targetEntity=User::class, mappedBy="banker", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=User::class, mappedBy="banker", cascade={"persist"})
      */
     private $customer;
 

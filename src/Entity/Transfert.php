@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\TransfertRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass=TransfertRepository::class)
@@ -19,8 +21,15 @@ class Transfert
 
     /**
      * @ORM\Column(type="float")
+     * @Assert\Positive
      */
     private $amount;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Beneficiary::class, inversedBy="transferts")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $beneficiary;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="transferts")
@@ -41,6 +50,18 @@ class Transfert
     public function setAmount(float $amount): self
     {
         $this->amount = $amount;
+
+        return $this;
+    }
+
+    public function getBeneficiary(): ?Beneficiary
+    {
+        return $this->beneficiary;
+    }
+
+    public function setBeneficiary(?Beneficiary $beneficiary): self
+    {
+        $this->beneficiary = $beneficiary;
 
         return $this;
     }

@@ -2,18 +2,27 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\UserRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
+
+
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="`user`")
+ * @Vich\Uploadable
  */
 class User implements UserInterface
 {
+    use TimestampableEntity;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -23,6 +32,10 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\NotBlank()
+     * @Assert\Email(
+     *     message = "The email '{{ value }}' is not a valid email."
+     * )
      */
     private $email;
 
@@ -34,8 +47,78 @@ class User implements UserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     * @Assert\Regex(pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,32}$",
+     * message="The password must be at least 8 characters long, but no more than 32 and contains at least one uppercase letter, one lowercase letter and one number")
      */
     private $password;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Banker::class, inversedBy="customer", cascade={"persist"})
+     * @Assert\NotBlank()
+     */
+    private $banker;
+
+    /**
+     * @ORM\Column(type="string", length=50)
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 50,
+     *      minMessage = "Your last name must be at least {{ limit }} characters long",
+     *      maxMessage = "Your last name cannot be longer than {{ limit }} characters"
+     * )
+     */
+    private $lastName;
+
+    /**
+     * @ORM\Column(type="string", length=50)
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 50,
+     *      minMessage = "Your first name must be at least {{ limit }} characters long",
+     *      maxMessage = "Your first name cannot be longer than {{ limit }} characters"
+     * )
+     */
+    private $firstName;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
+     */
+    private $adress;
+
+    /**
+     * @ORM\Column(type="string", length=10)
+     * @Assert\NotBlank()
+     * @Assert\Choice({"M.", "Mme"})
+     * 
+     */
+    private $gender;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
+     */
+    private $state = 'En cours';
+
+    /**
+     * @ORM\Column(type="date")
+     * @Assert\NotBlank()
+     */
+    private $birthday;
+
+    /**
+     * @ORM\Column(type="float")
+     * @Assert\NotBlank()
+     */
+    private $account = 3000;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Beneficiary::class, mappedBy="sender", orphanRemoval=true)
+     */
+    private $beneficiaries;
 
     /**
      * @ORM\OneToMany(targetEntity=Transfert::class, mappedBy="sender", orphanRemoval=true)
@@ -43,59 +126,30 @@ class User implements UserInterface
     private $transferts;
 
     /**
-     * @ORM\OneToMany(targetEntity=Beneficiary::class, mappedBy="sender")
+     * @ORM\Column(type="integer", nullable=true)
+     * @Assert\Range(
+     *      min = 100000,
+     *      max = 999999,
+     *      notInRangeMessage = "Account id is not valid",
+     * )
      */
-    private $beneficiaries;
-
-    /**
-     * @ORM\OneToOne(targetEntity=Banker::class, inversedBy="customer", cascade={"persist", "remove"})
-     */
-    private $banker;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $lastName;
+    private $accountId;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $firstName;
+    private $idCardImg;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @Vich\UploadableField(mapping="file_id_card_img", fileNameProperty="idCardImg")
+     * @var File
      */
-    private $adress;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $gender;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $createdAt;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $state;
-
-    /**
-     * @ORM\Column(type="date")
-     */
-    private $birthday;
-
-    /**
-     * @ORM\Column(type="float")
-     */
-    private $account;
+    private $fileIdCardImg;
 
     public function __construct()
     {
-        $this->transferts = new ArrayCollection();
         $this->beneficiaries = new ArrayCollection();
+        $this->transferts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -179,66 +233,6 @@ class User implements UserInterface
         // $this->plainPassword = null;
     }
 
-    /**
-     * @return Collection|Transfert[]
-     */
-    public function getTransferts(): Collection
-    {
-        return $this->transferts;
-    }
-
-    public function addTransfert(Transfert $transfert): self
-    {
-        if (!$this->transferts->contains($transfert)) {
-            $this->transferts[] = $transfert;
-            $transfert->setSender($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTransfert(Transfert $transfert): self
-    {
-        if ($this->transferts->removeElement($transfert)) {
-            // set the owning side to null (unless already changed)
-            if ($transfert->getSender() === $this) {
-                $transfert->setSender(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Beneficiary[]
-     */
-    public function getBeneficiaries(): Collection
-    {
-        return $this->beneficiaries;
-    }
-
-    public function addBeneficiary(Beneficiary $beneficiary): self
-    {
-        if (!$this->beneficiaries->contains($beneficiary)) {
-            $this->beneficiaries[] = $beneficiary;
-            $beneficiary->setSender($this);
-        }
-
-        return $this;
-    }
-
-    public function removeBeneficiary(Beneficiary $beneficiary): self
-    {
-        if ($this->beneficiaries->removeElement($beneficiary)) {
-            // set the owning side to null (unless already changed)
-            if ($beneficiary->getSender() === $this) {
-                $beneficiary->setSender(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getBanker(): ?Banker
     {
         return $this->banker;
@@ -299,18 +293,6 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
     public function getState(): ?string
     {
         return $this->state;
@@ -345,5 +327,104 @@ class User implements UserInterface
         $this->account = $account;
 
         return $this;
+    }
+
+    /**
+     * @return Collection|Beneficiary[]
+     */
+    public function getBeneficiaries(): Collection
+    {
+        return $this->beneficiaries;
+    }
+
+    public function addBeneficiary(Beneficiary $beneficiary): self
+    {
+        if (!$this->beneficiaries->contains($beneficiary)) {
+            $this->beneficiaries[] = $beneficiary;
+            $beneficiary->setSender($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBeneficiary(Beneficiary $beneficiary): self
+    {
+        if ($this->beneficiaries->removeElement($beneficiary)) {
+            // set the owning side to null (unless already changed)
+            if ($beneficiary->getSender() === $this) {
+                $beneficiary->setSender(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Transfert[]
+     */
+    public function getTransferts(): Collection
+    {
+        return $this->transferts;
+    }
+
+    public function addTransfert(Transfert $transfert): self
+    {
+        if (!$this->transferts->contains($transfert)) {
+            $this->transferts[] = $transfert;
+            $transfert->setSender($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTransfert(Transfert $transfert): self
+    {
+        if ($this->transferts->removeElement($transfert)) {
+            // set the owning side to null (unless already changed)
+            if ($transfert->getSender() === $this) {
+                $transfert->setSender(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getAccountId(): ?int
+    {
+        return $this->accountId;
+    }
+
+    public function setAccountId(?int $accountId): self
+    {
+        $this->accountId = $accountId;
+
+        return $this;
+    }
+
+    public function getIdCardImg(): ?string
+    {
+        return $this->idCardImg;
+    }
+
+    public function setIdCardImg(string $idCardImg): self
+    {
+        $this->idCardImg = $idCardImg;
+
+        return $this;
+    }
+
+        /**
+     * @return null|File
+     */
+    public function getFileIdCardImg(): ?File
+    {
+        return $this->fichierImage;
+    }
+    /**
+     * @param File|null $fichierImage
+     */
+    public function FileIdCardImg(?File $fichierImage = null): void
+    {
+        $this->fichierImage = $fichierImage;
     }
 }

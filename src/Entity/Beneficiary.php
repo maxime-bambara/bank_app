@@ -3,7 +3,11 @@
 namespace App\Entity;
 
 use App\Repository\BeneficiaryRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass=BeneficiaryRepository::class)
@@ -19,28 +23,47 @@ class Beneficiary
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
+     * 
      */
     private $lastName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $wording;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
+     * @Assert\Iban(
+     *     message="This is not a valid International Bank Account Number (IBAN)."
+     * )
      */
     private $iban;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="beneficiaries")
+     * @ORM\OneToMany(targetEntity=Transfert::class, mappedBy="beneficiary")
+     */
+    private $transferts;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="transferts")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $sender;
+
+    public function __construct()
+    {
+        $this->transferts = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -103,6 +126,36 @@ class Beneficiary
     public function setSender(?User $sender): self
     {
         $this->sender = $sender;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Transfert[]
+     */
+    public function getTransferts(): Collection
+    {
+        return $this->transferts;
+    }
+
+    public function addTransfert(Transfert $transfert): self
+    {
+        if (!$this->transferts->contains($transfert)) {
+            $this->transferts[] = $transfert;
+            $transfert->setBeneficiary($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTransfert(Transfert $transfert): self
+    {
+        if ($this->transferts->removeElement($transfert)) {
+            // set the owning side to null (unless already changed)
+            if ($transfert->getBeneficiary() === $this) {
+                $transfert->setBeneficiary(null);
+            }
+        }
 
         return $this;
     }
