@@ -82,6 +82,16 @@ class User implements UserInterface
      */
     private $state;
 
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $birthday;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $account;
+
     public function __construct()
     {
         $this->transferts = new ArrayCollection();
@@ -309,6 +319,30 @@ class User implements UserInterface
     public function setState(string $state): self
     {
         $this->state = $state;
+
+        return $this;
+    }
+
+    public function getBirthday(): ?\DateTimeInterface
+    {
+        return $this->birthday;
+    }
+
+    public function setBirthday(\DateTimeInterface $birthday): self
+    {
+        $this->birthday = $birthday;
+
+        return $this;
+    }
+
+    public function getAccount(): ?float
+    {
+        return $this->account;
+    }
+
+    public function setAccount(float $account): self
+    {
+        $this->account = $account;
 
         return $this;
     }
