@@ -7,6 +7,8 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Serializable;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -18,8 +20,9 @@ use Symfony\Component\HttpFoundation\File\File;
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="`user`")
  * @Vich\Uploadable
+ * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  */
-class User implements UserInterface
+class User implements UserInterface, Serializable
 {
     use TimestampableEntity;
 
@@ -438,6 +441,17 @@ class User implements UserInterface
         $this->banker = $banker;
 
         return $this;
+    }
+
+    public function serialize()
+    {
+        $this->fileIdCardImg = base64_encode($this->fileIdCardImg);
+    }
+
+    public function unserialize($serialized)
+    {
+        $this->fileIdCardImg = base64_decode($this->fileIdCardImg);
+
     }
 
 

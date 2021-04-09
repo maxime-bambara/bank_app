@@ -23,8 +23,8 @@
                 <td>{{ banker.roles ? banker.roles|json_encode : '' }}</td>
                 <td>{{ banker.password }}</td>
                 <td>
-                    <a href="{{ path('banker_show', {'id': banker.id}) }}">show</a>
-                    <a href="{{ path('banker_edit', {'id': banker.id}) }}">edit</a>
+                    <a href="{{ path('app_banker_show_banker', {'id': banker.id}) }}">show</a>
+                    <a href="{{ path('app_banker_edit', {'id': banker.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -35,5 +35,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('banker_new') }}">Create new</a>
+    <a href="{{ path('app_banker_new') }}">Create new</a>
 {% endblock %}

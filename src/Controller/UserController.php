@@ -16,10 +16,16 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserController extends AbstractController
 {
     /**
-     * @Route("/", name="user_index", methods={"GET"})
+     * @Route("/", name="app_user_index", methods={"GET"})
      */
     public function index(UserRepository $userRepository): Response
     {
+        // if ($this->getUser()) {
+        //    var_dump($this->getUser());
+        // }
+
+        dump($this->getUser());
+        
         return $this->render('user/index.html.twig', [
             'users' => $userRepository->findAll(),
         ]);
