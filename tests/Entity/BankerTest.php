@@ -34,7 +34,7 @@ class BankerTest extends TestCase
     }
 
     public function testNotValidUsername(){
-        $this->assertNotEquals('Mr Laurent', $this->getEntity()->setPassword('0000')->getPassword());
+        $this->assertNotEquals('Mr Laurent', $this->getEntity()->setUsername('Mr Paul')->getPassword());
     }
 
     public function testValidPassword(){
@@ -42,7 +42,7 @@ class BankerTest extends TestCase
     }
 
     public function testNotValidPassword(){
-        $this->assertNotEquals('0000', $this->getEntity()->setUsername('0001')->getUsername());
+        $this->assertNotEquals('0000', $this->getEntity()->setPassword('0001')->getPassword());
     }
 
 
@@ -67,7 +67,4 @@ class BankerTest extends TestCase
     public function testRealValidCustomer(){
         $this->assertEquals($this->getCustomer()->getEmail(), $this->getEntityWithCustomer()->getCustomers()->getValues()[0]->getEmail());
     }
-
-
-
 }
