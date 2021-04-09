@@ -55,7 +55,7 @@ class Beneficiary
     private $transferts;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="transferts")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="beneficiaries")
      * @ORM\JoinColumn(nullable=false)
      */
     private $sender;
