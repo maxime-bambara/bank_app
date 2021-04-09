@@ -59,6 +59,4 @@ class UserTest extends TestCase
     public function testDefaultAmount(){
         $this->assertEquals(3000, $this->getEntity()->getAccount());
     }
-
-
 }

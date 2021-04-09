@@ -48,8 +48,8 @@ class User implements UserInterface
      * @var string The hashed password
      * @ORM\Column(type="string")
      * @Assert\NotBlank()
-     * @Assert\Regex(pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,32}$",
-     * message="The password must be at least 8 characters long, but no more than 32 and contains at least one uppercase letter, one lowercase letter and one number")
+     * @Assert\Regex(pattern="/^(?=.*[0-9])(?=.*[A-Z]).{8,20}$/",
+     * message="The password must be at least 8 characters long, but no more than 20 and contains at least one uppercase letter, one lowercase letter and one number")
      */
     private $password;
 
@@ -131,7 +131,8 @@ class User implements UserInterface
     private $accountId;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @var string
      */
     private $idCardImg;
 
@@ -140,6 +141,12 @@ class User implements UserInterface
      * @var File
      */
     private $fileIdCardImg;
+
+    /**
+     * @ORM\Column(type="datetime",  options={"default": "CURRENT_TIMESTAMP"})
+     * @var \DateTime
+     */
+    private $mis_a_jour_le;
 
     /**
      * @ORM\ManyToOne(targetEntity=Banker::class, inversedBy="customers")
@@ -402,19 +409,23 @@ class User implements UserInterface
         return $this;
     }
 
-        /**
+    /**
      * @return null|File
      */
     public function getFileIdCardImg(): ?File
     {
-        return $this->fichierImage;
+        return $this->fileIdCardImg;
     }
     /**
-     * @param File|null $fichierImage
+     * @param File|null $fileIdCardImg
      */
-    public function FileIdCardImg(?File $fichierImage = null): void
+    public function setFileIdCardImg(?File $fileIdCardImg = null): void
     {
-        $this->fichierImage = $fichierImage;
+        $this->fileIdCardImg = $fileIdCardImg;
+
+        if ($fileIdCardImg) {
+            $this->mis_a_jour_le = new \DateTime('now');
+        }
     }
 
     public function getBanker(): ?Banker

@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Transfert index{% endblock %}
+
+{% block body %}
+    <h1>Transfert index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Amount</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for transfert in transferts %}
+            <tr>
+                <td>{{ transfert.id }}</td>
+                <td>{{ transfert.amount }}</td>
+                <td>
+                    <a href="{{ path('transfert_show', {'id': transfert.id}) }}">show</a>
+                    <a href="{{ path('transfert_edit', {'id': transfert.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('transfert_new') }}">Create new</a>
+{% endblock %}
