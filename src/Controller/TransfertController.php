@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class TransfertController extends AbstractController
 {
     /**
-     * @Route("/", name="transfert_index", methods={"GET"})
+     * @Route("/", name="app_transfert_index", methods={"GET"})
      */
     public function index(TransfertRepository $transfertRepository): Response
     {
@@ -39,7 +39,7 @@ class TransfertController extends AbstractController
             $entityManager->persist($transfert);
             $entityManager->flush();
 
-            return $this->redirectToRoute('transfert_index');
+            return $this->redirectToRoute('app_transfert_index');
         }
 
         return $this->render('transfert/new.html.twig', [
@@ -49,7 +49,7 @@ class TransfertController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="transfert_show", methods={"GET"})
+     * @Route("/{id}", name="app_transfert_show", methods={"GET"})
      */
     public function show(Transfert $transfert): Response
     {
@@ -59,7 +59,7 @@ class TransfertController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="transfert_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="app_transfert_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Transfert $transfert): Response
     {
@@ -69,7 +69,7 @@ class TransfertController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('transfert_index');
+            return $this->redirectToRoute('app_transfert_index');
         }
 
         return $this->render('transfert/edit.html.twig', [
@@ -79,7 +79,7 @@ class TransfertController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="transfert_delete", methods={"POST"})
+     * @Route("/{id}", name="app_transfert_delete", methods={"POST"})
      */
     public function delete(Request $request, Transfert $transfert): Response
     {
@@ -89,6 +89,6 @@ class TransfertController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('transfert_index');
+        return $this->redirectToRoute('app_transfert_index');
     }
 }

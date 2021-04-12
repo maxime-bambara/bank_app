@@ -60,6 +60,12 @@ class Beneficiary
      */
     private $sender;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="beneficiaries")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $customer;
+
     public function __construct()
     {
         $this->transferts = new ArrayCollection();
@@ -156,6 +162,18 @@ class Beneficiary
                 $transfert->setBeneficiary(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCustomer(): ?Customer
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(?Customer $customer): self
+    {
+        $this->customer = $customer;
 
         return $this;
     }

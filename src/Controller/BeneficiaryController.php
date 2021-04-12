@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class BeneficiaryController extends AbstractController
 {
     /**
-     * @Route("/", name="beneficiary_index", methods={"GET"})
+     * @Route("/", name="app_beneficiary_index", methods={"GET"})
      */
     public function index(BeneficiaryRepository $beneficiaryRepository): Response
     {
@@ -26,7 +26,7 @@ class BeneficiaryController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="beneficiary_new", methods={"GET","POST"})
+     * @Route("/new", name="app_beneficiary_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -39,7 +39,7 @@ class BeneficiaryController extends AbstractController
             $entityManager->persist($beneficiary);
             $entityManager->flush();
 
-            return $this->redirectToRoute('beneficiary_index');
+            return $this->redirectToRoute('app_beneficiary_index');
         }
 
         return $this->render('beneficiary/new.html.twig', [
@@ -49,7 +49,7 @@ class BeneficiaryController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="beneficiary_show", methods={"GET"})
+     * @Route("/{id}", name="app_beneficiary_show", methods={"GET"})
      */
     public function show(Beneficiary $beneficiary): Response
     {
@@ -59,7 +59,7 @@ class BeneficiaryController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="beneficiary_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="app_beneficiary_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Beneficiary $beneficiary): Response
     {
@@ -69,7 +69,7 @@ class BeneficiaryController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('beneficiary_index');
+            return $this->redirectToRoute('app_beneficiary_index');
         }
 
         return $this->render('beneficiary/edit.html.twig', [
@@ -79,7 +79,7 @@ class BeneficiaryController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="beneficiary_delete", methods={"POST"})
+     * @Route("/{id}", name="app_beneficiary_delete", methods={"POST"})
      */
     public function delete(Request $request, Beneficiary $beneficiary): Response
     {
@@ -89,6 +89,6 @@ class BeneficiaryController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('beneficiary_index');
+        return $this->redirectToRoute('app_beneficiary_index');
     }
 }

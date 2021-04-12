@@ -20,6 +20,9 @@ class BankerController extends AbstractController
      */
     public function index(BankerRepository $bankerRepository): Response
     {
+        if ($this->getUser()) {
+           dump($this->getUser()->getRoles());
+        }
         return $this->render('banker/index.html.twig', [
             'bankers' => $bankerRepository->findAll(),
         ]);
@@ -39,7 +42,7 @@ class BankerController extends AbstractController
             $entityManager->persist($banker);
             $entityManager->flush();
 
-            return $this->redirectToRoute('banker_index');
+            return $this->redirectToRoute('app_banker_index');
         }
 
         return $this->render('banker/new.html.twig', [
@@ -69,7 +72,7 @@ class BankerController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('banker_index');
+            return $this->redirectToRoute('app_banker_index');
         }
 
         return $this->render('banker/edit.html.twig', [
@@ -89,6 +92,6 @@ class BankerController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('banker_index');
+        return $this->redirectToRoute('app_banker_index');
     }
 }

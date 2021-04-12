@@ -32,10 +32,12 @@ class Transfert
     private $beneficiary;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="transferts")
+     * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="transferts")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $sender;
+    private $customer;
+
+
 
     public function getId(): ?int
     {
@@ -74,6 +76,18 @@ class Transfert
     public function setSender(?User $sender): self
     {
         $this->sender = $sender;
+
+        return $this;
+    }
+
+    public function getCustomer(): ?Customer
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(?Customer $customer): self
+    {
+        $this->customer = $customer;
 
         return $this;
     }
