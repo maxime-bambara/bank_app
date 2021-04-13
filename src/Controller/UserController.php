@@ -42,25 +42,6 @@ class UserController extends AbstractController
         ]);
     }
 
-    // /**
-    //  * @Route("/details/{id}/edit", name="user_edit", methods={"GET","POST"})
-    //  */
-    // public function edit(Request $request, User $user): Response
-    // {
-    //     $form = $this->createForm(UserType::class, $user);
-    //     $form->handleRequest($request);
-
-    //     if ($form->isSubmitted() && $form->isValid()) {
-    //         $this->getDoctrine()->getManager()->flush();
-
-    //         return $this->redirectToRoute('user_index');
-    //     }
-
-    //     return $this->render('user/edit.html.twig', [
-    //         'user' => $user,
-    //         'form' => $form->createView(),
-    //     ]);
-    // }
 
     /**
      * @Route("/details/{id}/validate", name="user_edit", methods={"GET","POST"})
@@ -77,6 +58,8 @@ class UserController extends AbstractController
         }
 
         $user->setState('Validé');
+        $user->setAccountId($user->checkAccountId($entityManager->getRepository(User::class)));
+
 
         $entityManager->flush();
 

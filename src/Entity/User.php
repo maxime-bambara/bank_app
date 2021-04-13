@@ -394,6 +394,7 @@ class User implements UserInterface, Serializable
 
     public function setAccountId(?int $accountId): self
     {
+
         $this->accountId = $accountId;
 
         return $this;
@@ -459,6 +460,14 @@ class User implements UserInterface, Serializable
         $this->email,
         $this->password,
         ) = unserialize($serialized);
+    }
+
+    public function checkAccountId(UserRepository $userRepository){
+        $checkId = random_int(100000, 999999);
+        if ($userRepository->findOneByAccountId($checkId) === null){
+            return $checkId;
+        }
+        return $this->checkAccountId($userRepository);
     }
 
 
