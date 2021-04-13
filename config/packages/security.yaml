@@ -24,7 +24,7 @@ security:
 
         app_banker_provider:
             entity:
-                class: App\Entity\User
+                class: App\Entity\Banker
                 property: username
 
     firewalls:
@@ -33,25 +33,25 @@ security:
             security: false
         
         banker:
-            pattern: ^/banker/login
+            pattern: ^/banker
             provider: app_banker_provider
             anonymous: true
+            logout:
+                path: app_banker_logout
             guard:
                 authenticators:
-                    - App\Security\LoginBankerFormAuthenticator
-            logout:
-                path:   app_logout
+                    - App\Security\BankerLoginFormAuthenticator
 
-        user:
-            pattern: ^/user/login
+        main:
+            pattern: ^/
+            lazy: true
             provider: app_user_provider
             anonymous: true
+            logout:
+                path: app_logout
             guard:
                 authenticators:
-                    - App\Security\LoginFormAuthenticator
-            logout:
-                path:   app_logout
-        
+                    - App\Security\UserLoginFormAuthenticator
         
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }

@@ -18,7 +18,6 @@ use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
- * @ORM\Table(name="`user`")
  * @Vich\Uploadable
  * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  */
@@ -443,15 +442,23 @@ class User implements UserInterface, Serializable
         return $this;
     }
 
-    public function serialize()
-    {
-        $this->fileIdCardImg = base64_encode($this->fileIdCardImg);
-    }
+    public function serialize() {
 
-    public function unserialize($serialized)
-    {
-        $this->fileIdCardImg = base64_decode($this->fileIdCardImg);
-
+        return serialize(array(
+        $this->id,
+        $this->email,
+        $this->password,
+        ));
+        
+     }
+        
+    public function unserialize($serialized) {
+        
+        list (
+        $this->id,
+        $this->email,
+        $this->password,
+        ) = unserialize($serialized);
     }
 
 

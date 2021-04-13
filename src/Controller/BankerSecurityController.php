@@ -27,7 +27,7 @@ class BankerSecurityController extends AbstractController
     }
 
     /**
-     * @Route("/logout", name="app_logout")
+     * @Route("/banker/logout", name="app_banker_logout")
      */
     public function logout()
     {

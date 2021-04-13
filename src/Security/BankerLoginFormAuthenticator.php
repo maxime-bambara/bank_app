@@ -20,7 +20,7 @@ use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticato
 use Symfony\Component\Security\Guard\PasswordAuthenticatedInterface;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
-class LoginBankerFormAuthenticator extends AbstractFormLoginAuthenticator implements PasswordAuthenticatedInterface
+class BankerLoginFormAuthenticator extends AbstractFormLoginAuthenticator implements PasswordAuthenticatedInterface
 {
     use TargetPathTrait;
 
@@ -67,19 +67,19 @@ class LoginBankerFormAuthenticator extends AbstractFormLoginAuthenticator implem
             throw new InvalidCsrfTokenException();
         }
 
-        $user = $this->entityManager->getRepository(Banker::class)->findOneBy(['username' => $credentials['username']]);
+        $banker = $this->entityManager->getRepository(Banker::class)->findOneBy(['username' => $credentials['username']]);
 
-        if (!$user) {
+        if (!$banker) {
             // fail authentication with a custom error
             throw new CustomUserMessageAuthenticationException('Username could not be found.');
         }
 
-        return $user;
+        return $banker;
     }
 
-    public function checkCredentials($credentials, UserInterface $user)
+    public function checkCredentials($credentials, UserInterface $banker)
     {
-        return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
+        return $this->passwordEncoder->isPasswordValid($banker, $credentials['password']);
     }
 
     /**
@@ -96,7 +96,7 @@ class LoginBankerFormAuthenticator extends AbstractFormLoginAuthenticator implem
             return new RedirectResponse($targetPath);
         }
 
-        return new RedirectResponse($this->urlGenerator->generate('app_banker_index'));
+        return new RedirectResponse($this->urlGenerator->generate('app_home'));
     }
 
     protected function getLoginUrl()
