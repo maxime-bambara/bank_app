@@ -60,6 +60,11 @@ class Beneficiary
      */
     private $sender;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $state= 'En cours';
+
     public function __construct()
     {
         $this->transferts = new ArrayCollection();
@@ -156,6 +161,18 @@ class Beneficiary
                 $transfert->setBeneficiary(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getState(): ?string
+    {
+        return $this->state;
+    }
+
+    public function setState(string $state): self
+    {
+        $this->state = $state;
 
         return $this;
     }

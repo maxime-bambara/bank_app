@@ -26,11 +26,23 @@ class BeneficiaryController extends AbstractController
     }
 
     /**
+     * @Route("/user/list", name="beneficiary_user_index", methods={"GET"})
+     */
+    public function userIndex(BeneficiaryRepository $beneficiaryRepository): Response
+    {
+        $user= $this->getUser();
+        return $this->render('beneficiary/index.html.twig', [
+            'beneficiaries' => $beneficiaryRepository->findByUsers($user),
+        ]);
+    }
+
+    /**
      * @Route("/new", name="beneficiary_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
         $beneficiary = new Beneficiary();
+        $beneficiary->setSender($this->getUser());
         $form = $this->createForm(BeneficiaryType::class, $beneficiary);
         $form->handleRequest($request);
 
@@ -59,23 +71,25 @@ class BeneficiaryController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="beneficiary_edit", methods={"GET","POST"})
+     * @Route("/details/{id}/validate", name="beneficiary_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Beneficiary $beneficiary): Response
+    public function validate(int $id): Response
     {
-        $form = $this->createForm(BeneficiaryType::class, $beneficiary);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('beneficiary_index');
+        $entityManager = $this->getDoctrine()->getManager();
+        $user = $entityManager->getRepository(Beneficiary::class)->find($id);
+        
+        if (!$user) {
+            throw $this->createNotFoundException(
+                'No beneficiary found for id '.$id
+            );
         }
 
-        return $this->render('beneficiary/edit.html.twig', [
-            'beneficiary' => $beneficiary,
-            'form' => $form->createView(),
-        ]);
+        $user->setState('Validé');
+
+        $entityManager->flush();
+
+
+        return $this->redirectToRoute('beneficiary_user_index');
     }
 
     /**

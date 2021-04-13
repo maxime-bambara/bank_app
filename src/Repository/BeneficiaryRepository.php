@@ -19,22 +19,23 @@ class BeneficiaryRepository extends ServiceEntityRepository
         parent::__construct($registry, Beneficiary::class);
     }
 
-    // /**
-    //  * @return Beneficiary[] Returns an array of Beneficiary objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('b.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
+    /**
+    * @return Beneficiary[] Returns an array of Beneficiary objects
     */
+    function findByUsers($user)
+    {
+        // automatically knows to select Products
+        // the "p" is an alias you'll use in the rest of the query
+        $qb = $this->createQueryBuilder('b')
+            ->where('b.sender = :user')
+            ->setParameter('user', $user);
+
+        $query = $qb->getQuery();
+
+        return $query->execute();
+
+    }
+    
 
     /*
     public function findOneBySomeField($value): ?Beneficiary

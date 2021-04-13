@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Banker;
+use App\Entity\Beneficiary;
 use App\Form\BankerType;
 use App\Repository\BankerRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -58,27 +59,6 @@ class BankerController extends AbstractController
             'banker' => $banker,
         ]);
     }
-
-    /**
-     * @Route("/{id}/edit", name="app_banker_edit", methods={"GET","POST"})
-     */
-    public function edit(Request $request, Banker $banker): Response
-    {
-        $form = $this->createForm(BankerType::class, $banker);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('banker_index');
-        }
-
-        return $this->render('banker/edit.html.twig', [
-            'banker' => $banker,
-            'form' => $form->createView(),
-        ]);
-    }
-
     /**
      * @Route("/delete/{id}", name="app_banker_delete", methods={"POST"})
      */

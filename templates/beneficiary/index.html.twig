@@ -24,9 +24,11 @@
                 <td>{{ beneficiary.firstName }}</td>
                 <td>{{ beneficiary.wording }}</td>
                 <td>{{ beneficiary.iban }}</td>
+                <td>{{ beneficiary.sender.email }}</td>
+                <td>{{ beneficiary.state }}</td>
                 <td>
                     <a href="{{ path('beneficiary_show', {'id': beneficiary.id}) }}">show</a>
-                    <a href="{{ path('beneficiary_edit', {'id': beneficiary.id}) }}">edit</a>
+                    <a href="{{ path('beneficiary_edit', {'id': beneficiary.id}) }}">validate</a>
                 </td>
             </tr>
         {% else %}
