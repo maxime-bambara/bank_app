@@ -46,6 +46,10 @@ class TransfertController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if($form->getData()->getBeneficiary()->getState() !== 'Validé'){
+                $this->addFlash('error', 'Le bénéficiaire n\'a pas encore été validé. Veuillez attendre la confirmation de votre conseiller');
+                return $this->redirectToRoute('transfert_new');
+            }
             $user = $this->getUser();
             $transfert->setSender($user);
             $account = $user->getAccount();

@@ -50,6 +50,11 @@ class Banker implements UserInterface
      */
     private $customers;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $numberOfCustomers;
+
     public function __construct()
     {
         $this->customers = new ArrayCollection();
@@ -157,6 +162,18 @@ class Banker implements UserInterface
                 $customer->setBanker(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getNumberOfCustomers(): ?int
+    {
+        return $this->numberOfCustomers;
+    }
+
+    public function setNumberOfCustomers(?int $numberOfCustomers): self
+    {
+        $this->numberOfCustomers = $numberOfCustomers;
 
         return $this;
     }

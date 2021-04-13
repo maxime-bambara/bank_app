@@ -27,7 +27,7 @@ class BeneficiaryRepository extends ServiceEntityRepository
         // automatically knows to select Products
         // the "p" is an alias you'll use in the rest of the query
         $qb = $this->createQueryBuilder('b')
-            ->where('b.sender = :user')
+            ->andwhere('b.sender = :user')
             ->setParameter('user', $user);
 
         $query = $qb->getQuery();

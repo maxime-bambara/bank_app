@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Banker;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
@@ -36,6 +37,8 @@ class BankerRepository extends ServiceEntityRepository implements PasswordUpgrad
         $this->_em->flush();
     }
 
+    
+
     // /**
     //  * @return Banker[] Returns an array of Banker objects
     //  */
@@ -53,15 +56,21 @@ class BankerRepository extends ServiceEntityRepository implements PasswordUpgrad
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?Banker
+    
+    public function findOneByBankerWorkload()
     {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT b
+            FROM App\Entity\Banker b
+            ORDER BY b.numberOfCustomers ASC'
+        )
+        ->setMaxResults(1);
+
+        // returns an array of Product objects
+        return $query->getResult();
+
     }
-    */
+    
 }

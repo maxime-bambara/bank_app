@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Repository\BankerRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,13 +19,12 @@ class UserController extends AbstractController
     /**
      * @Route("/", name="user_index", methods={"GET"})
      */
-    public function index(UserRepository $userRepository): Response
+    public function index(UserRepository $userRepository, BankerRepository $bankerRepository): Response
     {
         // if ($this->getUser()) {
         //    var_dump($this->getUser());
         // }
-
-        dump($this->getUser());
+        dump($bankerRepository->findOneByBankerWorkload()[0]);
         
         return $this->render('user/index.html.twig', [
             'users' => $userRepository->findAll(),
@@ -46,7 +46,7 @@ class UserController extends AbstractController
     /**
      * @Route("/details/{id}/validate", name="user_edit", methods={"GET","POST"})
      */
-    public function validate(int $id): Response
+    public function validate(int $id, BankerRepository $bankerRepository): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
         $user = $entityManager->getRepository(User::class)->find($id);
@@ -56,14 +56,12 @@ class UserController extends AbstractController
                 'No user found for id '.$id
             );
         }
-
         $user->setState('Validé');
         $user->setAccountId($user->checkAccountId($entityManager->getRepository(User::class)));
-
-
+        $banker = $bankerRepository->findOneByBankerWorkload()[0];
+        $banker->addCustomer($user);
+        $banker->setNumberOfCustomers($banker->getNumberOfCustomers() + 1);
         $entityManager->flush();
-
-
         return $this->redirectToRoute('user_index');
     }
 

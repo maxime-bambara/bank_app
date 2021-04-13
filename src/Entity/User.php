@@ -156,6 +156,8 @@ class User implements UserInterface, Serializable
     private $banker;
 
 
+
+
     public function __construct()
     {
         $this->beneficiaries = new ArrayCollection();
@@ -431,18 +433,6 @@ class User implements UserInterface, Serializable
         }
     }
 
-    public function getBanker(): ?Banker
-    {
-        return $this->banker;
-    }
-
-    public function setBanker(?Banker $banker): self
-    {
-        $this->banker = $banker;
-
-        return $this;
-    }
-
     public function serialize() {
 
         return serialize(array(
@@ -468,6 +458,18 @@ class User implements UserInterface, Serializable
             return $checkId;
         }
         return $this->checkAccountId($userRepository);
+    }
+
+    public function getBanker(): ?Banker
+    {
+        return $this->banker;
+    }
+
+    public function setBanker(?Banker $banker): self
+    {
+        $this->banker = $banker;
+
+        return $this;
     }
 
 

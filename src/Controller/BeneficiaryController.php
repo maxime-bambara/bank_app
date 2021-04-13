@@ -71,7 +71,7 @@ class BeneficiaryController extends AbstractController
     }
 
     /**
-     * @Route("/details/{id}/validate", name="beneficiary_edit", methods={"GET","POST"})
+     * @Route("/{id}/validate", name="beneficiary_edit", methods={"GET","POST"})
      */
     public function validate(int $id): Response
     {
