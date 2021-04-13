@@ -18,7 +18,6 @@ class UserType extends AbstractType
     {
         $builder
             ->add('email', TextType::class)
-            ->add('password', TextType::class)
             ->add('lastName', TextType::class)
             ->add('firstName', TextType::class)
             ->add('adress', TextType::class)
@@ -42,7 +41,6 @@ class UserType extends AbstractType
             ->add('account', NumberType::class, [
                 'label' => 'First amount'
             ])
-            ->add('fileIdCardImg', VichFileType::class)
         ;
     }
 
