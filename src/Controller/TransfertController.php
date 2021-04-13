@@ -26,6 +26,17 @@ class TransfertController extends AbstractController
     }
 
     /**
+     * @Route("/user/list", name="transfert_user_index", methods={"GET"})
+     */
+    public function userIndex(TransfertRepository $transfertRepository): Response
+    {
+        $user= $this->getUser();
+        return $this->render('transfert/index.html.twig', [
+            'transferts' => $transfertRepository->findByUsers($user),
+        ]);
+    }
+
+    /**
      * @Route("/new", name="transfert_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
@@ -35,8 +46,15 @@ class TransfertController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $user = $this->getUser();
+            $transfert->setSender($user);
+            $account = $user->getAccount();
+            $amount = $form->getData()->getAmount();
+            $account -= $amount;
+            $user->setAccount($account);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($transfert);
+            $entityManager->persist($user);
             $entityManager->flush();
 
             return $this->redirectToRoute('transfert_index');
@@ -55,26 +73,6 @@ class TransfertController extends AbstractController
     {
         return $this->render('transfert/show.html.twig', [
             'transfert' => $transfert,
-        ]);
-    }
-
-    /**
-     * @Route("/{id}/edit", name="transfert_edit", methods={"GET","POST"})
-     */
-    public function edit(Request $request, Transfert $transfert): Response
-    {
-        $form = $this->createForm(TransfertType::class, $transfert);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('transfert_index');
-        }
-
-        return $this->render('transfert/edit.html.twig', [
-            'transfert' => $transfert,
-            'form' => $form->createView(),
         ]);
     }
 

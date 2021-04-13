@@ -19,22 +19,22 @@ class TransfertRepository extends ServiceEntityRepository
         parent::__construct($registry, Transfert::class);
     }
 
-    // /**
-    //  * @return Transfert[] Returns an array of Transfert objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @return Transfert[] Returns an array of Transfert objects
+     */
+    public function findByUsers($user)
     {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('t.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        // automatically knows to select Products
+        // the "p" is an alias you'll use in the rest of the query
+        $qb = $this->createQueryBuilder('t')
+            ->where('t.sender = :user')
+            ->setParameter('user', $user);
+
+        $query = $qb->getQuery();
+
+        return $query->execute();
+
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?Transfert

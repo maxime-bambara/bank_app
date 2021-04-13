@@ -22,7 +22,7 @@ class BeneficiaryRepository extends ServiceEntityRepository
     /**
     * @return Beneficiary[] Returns an array of Beneficiary objects
     */
-    function findByUsers($user)
+    public function findByUsers($user)
     {
         // automatically knows to select Products
         // the "p" is an alias you'll use in the rest of the query
