@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class TransfertController extends AbstractController
 {
     /**
-     * @Route("/", name="transfert_index", methods={"GET"})
+     * @Route("/", name="app_transfert_index", methods={"GET"})
      */
     public function index(TransfertRepository $transfertRepository): Response
     {
@@ -26,7 +26,7 @@ class TransfertController extends AbstractController
     }
 
     /**
-     * @Route("/user/list", name="transfert_user_index", methods={"GET"})
+     * @Route("/user/list", name="app_transfert_user_index", methods={"GET"})
      */
     public function userIndex(TransfertRepository $transfertRepository): Response
     {
@@ -37,7 +37,7 @@ class TransfertController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="transfert_new", methods={"GET","POST"})
+     * @Route("/new", name="app_transfert_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -71,7 +71,7 @@ class TransfertController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="transfert_show", methods={"GET"})
+     * @Route("/{id}", name="app_transfert_show", methods={"GET"})
      */
     public function show(Transfert $transfert): Response
     {
@@ -81,7 +81,7 @@ class TransfertController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="transfert_delete", methods={"POST"})
+     * @Route("/{id}", name="app_transfert_delete", methods={"POST"})
      */
     public function delete(Request $request, Transfert $transfert): Response
     {

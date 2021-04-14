@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\Banker;
 use App\Form\RegistrationFormType;
+use App\Repository\BankerRepository;
 use App\Form\BankerRegistrationFormType;
 use App\Security\UserLoginFormAuthenticator;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,7 +21,7 @@ class RegistrationController extends AbstractController
     /**
      * @Route("/register", name="app_register")
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, UserLoginFormAuthenticator $authenticator): Response
+    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, UserLoginFormAuthenticator $authenticator, BankerRepository $bankerRepository): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -34,6 +35,10 @@ class RegistrationController extends AbstractController
                     $form->get('password')->getData()
                 )
             );
+            $banker = $bankerRepository->findOneByBankerWorkload()[0];
+            $banker->addCustomer($user);
+            $userCountInCollection = $banker->getNumberOfCustomers();
+            $banker->setNumberOfCustomers($userCountInCollection);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);

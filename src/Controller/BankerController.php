@@ -21,7 +21,7 @@ class BankerController extends AbstractController
      */
     public function index(BankerRepository $bankerRepository): Response
     {
-        dump($this->getUser());
+        dump($this->getUser()->getNumberOfCustomers());
         return $this->render('banker/index.html.twig', [
             'bankers' => $bankerRepository->findAll(),
         ]);

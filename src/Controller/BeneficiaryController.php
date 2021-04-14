@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class BeneficiaryController extends AbstractController
 {
     /**
-     * @Route("/", name="beneficiary_index", methods={"GET"})
+     * @Route("/", name="app_beneficiary_index", methods={"GET"})
      */
     public function index(BeneficiaryRepository $beneficiaryRepository): Response
     {
@@ -26,7 +26,7 @@ class BeneficiaryController extends AbstractController
     }
 
     /**
-     * @Route("/user/list", name="beneficiary_user_index", methods={"GET"})
+     * @Route("/user/list", name="app_beneficiary_user_index", methods={"GET"})
      */
     public function userIndex(BeneficiaryRepository $beneficiaryRepository): Response
     {
@@ -37,7 +37,7 @@ class BeneficiaryController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="beneficiary_new", methods={"GET","POST"})
+     * @Route("/new", name="app_beneficiary_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -61,7 +61,7 @@ class BeneficiaryController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="beneficiary_show", methods={"GET"})
+     * @Route("/{id}", name="app_beneficiary_show", methods={"GET"})
      */
     public function show(Beneficiary $beneficiary): Response
     {
@@ -71,7 +71,7 @@ class BeneficiaryController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/validate", name="beneficiary_edit", methods={"GET","POST"})
+     * @Route("/{id}/validate", name="app_beneficiary_edit", methods={"GET","POST"})
      */
     public function validate(int $id): Response
     {
@@ -93,7 +93,7 @@ class BeneficiaryController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="beneficiary_delete", methods={"POST"})
+     * @Route("/{id}", name="app_beneficiary_delete", methods={"POST"})
      */
     public function delete(Request $request, Beneficiary $beneficiary): Response
     {

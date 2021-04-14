@@ -168,7 +168,8 @@ class Banker implements UserInterface
 
     public function getNumberOfCustomers(): ?int
     {
-        return $this->numberOfCustomers;
+        $numberOfCustomers = $this->getCustomers()->getValues();
+        return count($numberOfCustomers);
     }
 
     public function setNumberOfCustomers(?int $numberOfCustomers): self

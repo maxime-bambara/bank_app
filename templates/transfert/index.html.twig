@@ -19,7 +19,7 @@
                 <td>{{ transfert.id }}</td>
                 <td>{{ transfert.amount }}</td>
                 <td>
-                    <a href="{{ path('transfert_show', {'id': transfert.id}) }}">show</a>
+                    <a href="{{ path('app_transfert_show', {'id': transfert.id}) }}">show</a>
                 </td>
             </tr>
         {% else %}
@@ -30,5 +30,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('transfert_new') }}">Create new</a>
+    <a href="{{ path('app_transfert_new') }}">Create new</a>
 {% endblock %}
