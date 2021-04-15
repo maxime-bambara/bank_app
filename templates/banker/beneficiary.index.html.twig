@@ -3,17 +3,17 @@
 {% block title %}Beneficiary index{% endblock %}
 
 {% block body %}
-<div class="container mt-5 mb-5 p-5 rounded" id="home-conteneur">
-    <h1 class="text-center mb-3">Liste de vos bénéficiaires</h1>
+    <h1>Beneficiary index</h1>
 
-    <table class="table text-center">
+    <table class="table">
         <thead>
             <tr>
-                <th>Nom</th>
-                <th>Prénom</th>
+                <th>LastName</th>
+                <th>FirstName</th>
                 <th>Libellé</th>
                 <th>Iban</th>
-                <th>Statut de Validation</th>
+                <th>Etat de la demande<th>
+                <th>actions</th>
             </tr>
         </thead>
         <tbody>
@@ -23,15 +23,18 @@
                 <td>{{ beneficiary.firstName }}</td>
                 <td>{{ beneficiary.wording }}</td>
                 <td>{{ beneficiary.iban }}</td>
+                <td>{{ beneficiary.sender.accountId }}</td>
                 <td>{{ beneficiary.state }}</td>
+                <td>
+                    <a href="{{ path('app_banker_beneficiary_show', {'id': beneficiary.id}) }}">Voir les détails</a>
+                    <a href="{{ path('app_banker_beneficiary_edit', {'id': beneficiary.id}) }}">Valider la demande</a>
+                </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="6">Aucun bénéficiaires trouvé</td>
+                <td colspan="6">Aucune demande d'ajoût de bénéficiaire trouvée</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-    <a href="{{ path('app_user_beneficiary_new') }}" class="btn btn-warning" role="button">Faire une nouvelle demande d'ajoût de bénéficiaire</a>
-<div>
 {% endblock %}

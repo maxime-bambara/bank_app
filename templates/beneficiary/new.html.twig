@@ -1,11 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Beneficiary{% endblock %}
+{% block title %}Nouveau bénéficiaire{% endblock %}
 
 {% block body %}
-    <h1>Create new Beneficiary</h1>
+    <div class="container mt-5 mb-5 p-5" id="home-conteneur">
 
-    {{ include('beneficiary/_form.html.twig') }}
+        <h1>Nouvelle demande d'ajoût de bénéficiaire</h1>
 
-    <a href="{{ path('app_beneficiary_index') }}">back to list</a>
+        {{ include('beneficiary/_form.html.twig') }}
+        <a href="{{ path('app_user_beneficiaries_index') }}" class="btn btn-warning" role="button">Retour à la liste des bénéficiaires</a>
+    </div>
+
 {% endblock %}

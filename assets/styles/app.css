@@ -24,3 +24,21 @@ h1, h2, .btn {
 #home-conteneur {
     background-color: rgb(172, 232, 236);
 }
+
+/* \Message d'alerte si l'écran est en mode portrait */
+#warning-message{ 
+    display: none; 
+  }
+  @media only screen and (orientation:portrait){
+      #wrapper { 
+        display:none; 
+        }
+      #warning-message { 
+        display:block; 
+        }
+  }
+  @media only screen and (orientation:landscape){
+      #warning-message{
+        display:none; 
+    }
+  }

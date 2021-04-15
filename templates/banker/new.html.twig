@@ -3,9 +3,8 @@
 {% block title %}New Banker{% endblock %}
 
 {% block body %}
-    <h1>Create new Banker</h1>
-
-    {{ include('banker/_form.html.twig') }}
-
-    <a href="{{ path('app_banker_index') }}">back to list</a>
+    <div class="container mt-5 mb-5 p-5" id="home-conteneur">
+        <h1>Create new Banker</h1>
+        {{ include('banker/_form.html.twig') }}
+    </div>
 {% endblock %}

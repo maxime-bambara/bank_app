@@ -1,12 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Transfert{% endblock %}
+{% block title %}Nouveau virement{% endblock %}
 
 {% block body %}
+    <div class="container mt-5 mb-5 p-5" id="home-conteneur">
 
-    <h1>Create new Transfert</h1>
+        <h1>Effectuer un nouveau virement</h1>
 
-    {{ include('transfert/_form.html.twig') }}
+        {{ include('transfert/_form.html.twig') }}
 
-    <a href="{{ path('app_transfert_index') }}">back to list</a>
+        <a href="{{ path('app_user_transfert_index') }}" class="btn btn-warning" role="button">Retour à la liste des virements</a>
+    </div>
 {% endblock %}
