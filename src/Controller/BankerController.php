@@ -103,6 +103,20 @@ class BankerController extends AbstractController
     }
 
     /**
+     * @Route("/user/{id}", name="app_user_delete", methods={"POST"})
+     */
+    public function userDelete(Request $request, User $user): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($user);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_user_index');
+    }
+
+    /**
      * @Route("beneficiary/{id}/validate", name="app_banker_beneficiary_edit", methods={"GET","POST"})
      */
     public function validateBeneficiary(int $id): Response
