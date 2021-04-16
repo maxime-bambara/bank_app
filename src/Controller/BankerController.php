@@ -26,31 +26,10 @@ class BankerController extends AbstractController
      */
     public function index(BankerRepository $bankerRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_BANKER');
+
         return $this->render('banker/index.html.twig', [
             'bankers' => $bankerRepository->findAll(),
-        ]);
-    }
-
-    /**
-     * @Route("/new", name="app_banker_new", methods={"GET","POST"})
-     */
-    public function new(Request $request): Response
-    {
-        $banker = new Banker();
-        $form = $this->createForm(BankerType::class, $banker);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($banker);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('banker_index');
-        }
-
-        return $this->render('banker/new.html.twig', [
-            'banker' => $banker,
-            'form' => $form->createView(),
         ]);
     }
 
@@ -59,6 +38,7 @@ class BankerController extends AbstractController
      */
     public function show(Banker $banker): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_BANKER');
         return $this->render('banker/show.html.twig', [
             'banker' => $banker,
         ]);
@@ -69,6 +49,7 @@ class BankerController extends AbstractController
      */
     public function delete(Request $request, Banker $banker): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_BANKER');
         if ($this->isCsrfTokenValid('delete'.$banker->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($banker);
@@ -83,6 +64,7 @@ class BankerController extends AbstractController
      */
     public function validateUser(int $id): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_BANKER');
         $entityManager = $this->getDoctrine()->getManager();
         $user = $entityManager->getRepository(User::class)->find($id);
         
@@ -102,7 +84,8 @@ class BankerController extends AbstractController
      * @Route("/users/index", name="app_user_index", methods={"GET"})
      */
     public function usersIndex(UserRepository $userRepository, BankerRepository $bankerRepository): Response
-    {        
+    {      
+        $this->denyAccessUnlessGranted('ROLE_BANKER');  
         return $this->render('banker/users_index.html.twig', [
             'users' => $userRepository->findAll(),
         ]);
@@ -113,6 +96,7 @@ class BankerController extends AbstractController
      */
     public function userShow(User $user): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_BANKER');
         return $this->render('banker/user_show.html.twig', [
             'user' => $user,
         ]);
@@ -123,6 +107,7 @@ class BankerController extends AbstractController
      */
     public function validateBeneficiary(int $id): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_BANKER');
         $entityManager = $this->getDoctrine()->getManager();
         $user = $entityManager->getRepository(Beneficiary::class)->find($id);
         
@@ -145,6 +130,7 @@ class BankerController extends AbstractController
      */
     public function beneficiaryIndex(BeneficiaryRepository $beneficiaryRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_BANKER');
         return $this->render('banker/beneficiary.index.html.twig', [
             'beneficiaries' => $beneficiaryRepository->findAll(),
         ]);
@@ -155,6 +141,7 @@ class BankerController extends AbstractController
      */
     public function beneficiaryShow(Beneficiary $beneficiary): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_BANKER');
         return $this->render('banker/beneficiary.show.html.twig', [
             'beneficiary' => $beneficiary,
         ]);
@@ -166,6 +153,7 @@ class BankerController extends AbstractController
      */
     public function beneficiaryDelete(Request $request, Beneficiary $beneficiary): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_BANKER');
         if ($this->isCsrfTokenValid('delete'.$beneficiary->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($beneficiary);
@@ -180,6 +168,7 @@ class BankerController extends AbstractController
      */
     public function transfertIndex(TransfertRepository $transfertRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_BANKER');
         return $this->render('banker/transfert.index.html.twig', [
             'transferts' => $transfertRepository->findAll(),
         ]);
@@ -190,6 +179,7 @@ class BankerController extends AbstractController
      */
     public function transfertDelete(Request $request, Transfert $transfert): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_BANKER');
         if ($this->isCsrfTokenValid('delete'.$transfert->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($transfert);

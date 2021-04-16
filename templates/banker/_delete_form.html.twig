@@ -1,4 +1,4 @@
-<form method="post" action="{{ path('banker_delete', {'id': banker.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce compte?');">
+<form method="post" action="{{ path('app_banker_delete', {'id': banker.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce compte?');">
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ banker.id) }}">
-    <button class="btn btn-warning">Supprimer le bénéficiaire</button>
+    <button class="btn btn-warning">Supprimer le conseiller</button>
 </form>

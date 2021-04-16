@@ -10,3 +10,13 @@ import './styles/app.css';
 
 // start the Stimulus application
 import './bootstrap';
+
+console.log('hello')
+
+
+let solde = document.getElementById('solde-restant');
+let amount = document.getElementById('account');
+
+solde.onclick = function () {
+    amount.setAttribute('class', 'text-center')
+}
