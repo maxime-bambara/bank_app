@@ -19,7 +19,7 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/user/home", name="app_user_home")
+     * @Route("/user/homepage", name="app_user_homepage")
      */
     public function userHome(): Response
     {
