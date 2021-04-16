@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un compte{% endblock %}
+
+{% block body %}
+    {% for flashError in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+    {% endfor %}
+<div class="container" id="home-conteneur">
+    <h1 class="text-center">Créer un compte</h1>
+
+    {{ form_start(registrationForm) }}
+    
+        <div class="row justify-content-center mb-3">
+            <div class="col-md-6">
+                {{ form_label(registrationForm.username) }}
+                {{ form_widget(registrationForm.username) }}
+            </div>
+        </div>
+        <div class="row justify-content-center mb-3">
+            <div class="col-md-6">
+                {{ form_label(registrationForm.password) }}
+                {{ form_widget(registrationForm.password) }}
+            </div>
+        </div>
+    
+        <button type="submit" class="btn btn-warning btn-block mb-3">S'enregistrer</button>
+    {{ form_end(registrationForm) }}
+
+</div>
+
+
+{% endblock %}
