@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bienvenue à la BambaBank{% endblock %}
+
+
+{% block body %}
+
+    <div class="container" id="home-conteneur")>
+        <h1 class="text-center mt-2">Votre BambaCompte !</h1>
+
+        <div class="row justify-content-center">
+            <div class="col-auto align-self-center">
+            <h2 class="text-center">Solde restant : <br>{{user.account}}€</h2>
+            </div>
+            <div class="col-auto">
+                <div class ="col-sm align-self-center">
+                    <div class="row m-5 text-align-center">
+                        <div class="col-12 text-center"><a class="btn btn-warning btn-lg btn-block" href="{{path('app_user_beneficiary_new')}}" role="button">Ajouter un bénéficiaire</a></div>
+                    </div>
+                    <div class="row m-5">
+                        <div class="col-12 text-center"><a class="btn btn-warning btn-lg btn-block" href="{{path('app_user_beneficiaries_index')}}" role="button">Liste des bénéficiaires</a></div>
+                    </div>             
+                    <div class="row m-5">
+                        <div class="col-12 text-center"><a class="btn btn-warning btn-lg btn-block" href="{{path('app_user_transfert_new')}}" role="button">Effectuer un virement</a></div>
+                    </div>
+                    <div class="row m-5">
+                        <div class="col-12 text-center"><a class="btn btn-warning btn-lg btn-block" href="{{path('app_user_transfert_index')}}" role="button">Historique des virements</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

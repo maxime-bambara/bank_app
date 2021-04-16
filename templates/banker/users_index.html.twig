@@ -3,25 +3,27 @@
 {% block title %}User index{% endblock %}
 
 {% block body %}
-<div class="container-fluid text-align-center">
+{{ include('banker/_nav.html.twig') }}
+<div class="container text-center">
     
     <h1>List des création de compte</h1>
     <div class="table-responsive">
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col">Email</th>
-                    <th scope="col">Etat du dossier</th>
-                    <th scope="col">N° de compte</th>
-                    <th scope="col">Date de la demande : </th>
-                    <th scope="col">Banquier attitré</th>
-                    <th scope="col">actions</th>
+                    <th>Email</th>
+                    <th>Etat du dossier</th>
+                    <th>N° de compte</th>
+                    <th>Date de la demande : </th>
+                    <th>Banquier attitré</th>
+                    <th>Infos</th>
+                    <th>Validation</th>
                 </tr>
             </thead>
             <tbody>
             {% for user in users %}
                 <tr>
-                    <td scope="row">{{ user.email }}</td>
+                    <td>{{ user.email }}</td>
                     <td>{{ user.state }}</td>
                     <td>{{ user.accountId }}</td>
                     <td>{{ user.createdAt ? user.createdAt|date('Y-m-d') : '' }}</td>
@@ -30,8 +32,10 @@
                     {% endif %}
                 
                     <td>
-                        <a href="{{ path('app_banker_user_show', {'id': user.id}) }}">Voir les détails</a>
-                        <a href="{{ path('app_user_edit', {'id': user.id}) }}">Valider le compte</a>
+                        <a href="{{ path('app_banker_user_show', {'id': user.id}) }}">Infos</a>
+                    </td>
+                    <td>
+                        <a href="{{ path('app_user_edit', {'id': user.id}) }}" class="btn btn-warning">Valider</a>
                     </td>
                 </tr>
             </div>

@@ -3,6 +3,7 @@
 {% block title %}New Banker{% endblock %}
 
 {% block body %}
+{{ include('banker/_nav.html.twig') }}
     <div class="container mt-5 mb-5 p-5" id="home-conteneur">
         <h1>Create new Banker</h1>
         {{ include('banker/_form.html.twig') }}

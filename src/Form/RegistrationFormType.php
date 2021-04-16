@@ -21,31 +21,46 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('email')
-            ->add('password', PasswordType::class)
-            ->add('lastName', TextType::class)
-            ->add('firstName', TextType::class)
-            ->add('adress', TextType::class)
+            ->add('email', TextType::class, [
+                'label' => 'Email'
+            ])
+            ->add('password', PasswordType::class,[
+                'label' => 'Mot de passe'
+            ])
+            ->add('lastName', TextType::class,[
+                'label' => 'Nom de famille'
+            ])
+            ->add('firstName', TextType::class,[
+                'label' => 'Prénom'
+            ])
+            ->add('adress', TextType::class,[
+                'label' => 'Adresse'
+            ])
             ->add('gender', ChoiceType::class, [
                 'choices' => [
-                    'M.' => 'Mr.',
+                    'M.' => 'M.',
                     'Mme' => 'Mme',
                 ],
+                'label' => 'Civilité'
             ])
             ->add('birthday', DateType::class, [
+                'label' => 'Date d\'anniversaire',
                 'widget' => 'choice',
                 'format' => 'y-M-d',
                 'years' => range(date("Y") - 110, date("Y") - 18)
             ])
             ->add('account', NumberType::class, [
-                'label' => 'First amount'
+                'label' => 'Premier apport'
             ])
-            ->add('fileIdCardImg', VichFileType::class)
+            ->add('fileIdCardImg', VichFileType::class,[
+                'label' => 'Pièce d\'identité'
+            ])
             ->add('agreeTerms', CheckboxType::class, [
+                'label' => 'Veuillez acceptez nos conditions d\'utilisation',
                 'mapped' => false,
                 'constraints' => [
                     new IsTrue([
-                        'message' => 'You should agree to our terms.',
+                        'message' => 'Vous devez acceptez nos conditions d\'utilisations.',
                     ]),
                 ],
             ])

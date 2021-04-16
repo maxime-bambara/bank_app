@@ -11,11 +11,31 @@ class HomeController extends AbstractController
     /**
      * @Route("/", name="app_home")
      */
-    public function index(): Response
+    public function home(): Response
     {
-        // dump($this->getUser());
         return $this->render('home/home.html.twig', [
             'controller_name' => 'HomeController',
         ]);
+    }
+
+    /**
+     * @Route("/user/home", name="app_user_home")
+     */
+    public function userHome(): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $user = $this->getUser();
+
+        if($user->getState() === 'Validé'){
+            return $this->render('home/user.home.html.twig', [
+            'user' => $user,
+        ]); 
+        }
+
+        return $this->render('home/user.untreated.home.html.twig', [
+            'user' => $user,
+        ]); 
+        
     }
 }

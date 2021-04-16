@@ -407,7 +407,7 @@ class User implements UserInterface, Serializable
         return $this->idCardImg;
     }
 
-    public function setIdCardImg(string $idCardImg): self
+    public function setIdCardImg(?string $idCardImg): self
     {
         $this->idCardImg = $idCardImg;
 

@@ -1,17 +1,80 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Créer un compte{% endblock %}
 
 {% block body %}
     {% for flashError in app.flashes('verify_email_error') %}
         <div class="alert alert-danger" role="alert">{{ flashError }}</div>
     {% endfor %}
-
-    <h1>Register</h1>
+<div class="container" id="home-conteneur">
+    <h1 class="text-center">Créer un compte</h1>
 
     {{ form_start(registrationForm) }}
-        {{ form_widget(registrationForm) }}
-        <button type="submit" class="btn">Register</button>
+    
+        <div class="row justify-content-center mb-3">
+            <div class="col-md-6">
+                {{ form_label(registrationForm.email) }}
+                {{ form_widget(registrationForm.email) }}
+            </div>
+        </div>
+        <div class="row justify-content-center mb-3">
+            <div class="col-md-6">
+                {{ form_label(registrationForm.password) }}
+                {{ form_widget(registrationForm.password) }}
+            </div>
+        </div>
+        <div class="row justify-content-center mb-3">
+            <div class="col-md-6">
+                {{ form_label(registrationForm.lastName) }}
+                {{ form_widget(registrationForm.lastName) }}
+            </div>
+        </div>
+        <div class="row justify-content-center mb-3">
+            <div class="col-md-6">
+                {{ form_label(registrationForm.firstName) }}
+                {{ form_widget(registrationForm.firstName) }}
+            </div>
+        </div>
+        <div class="row justify-content-center mb-3">
+            <div class="col-md-6">
+                {{ form_label(registrationForm.adress) }}
+                {{ form_widget(registrationForm.adress) }}
+            </div>
+        </div>
+        <div class="row justify-content-center mb-3">
+            <div class="col-md-6">
+                {{ form_label(registrationForm.gender) }}
+                {{ form_widget(registrationForm.gender) }}
+            </div>
+        </div>
+        <div class="row justify-content-center mb-3">
+            <div class="col-md-6">
+                {{ form_label(registrationForm.birthday) }}
+                {{ form_widget(registrationForm.birthday) }}
+            </div>
+        </div>
+        <div class="row justify-content-center mb-3">
+            <div class="col-md-6">
+                {{ form_label(registrationForm.account) }}
+                {{ form_widget(registrationForm.account) }}
+            </div>
+        </div>
+        <div class="row justify-content-center mb-3">
+            <div class="col-md-6">
+                {{ form_label(registrationForm.fileIdCardImg) }}
+                {{ form_widget(registrationForm.fileIdCardImg) }}
+            </div>
+        </div>
+        <div class="row justify-content-center mb-3">
+            <div class="col-md-6">
+                {{ form_label(registrationForm.agreeTerms) }}
+                {{ form_widget(registrationForm.agreeTerms) }}
+            </div>
+        </div>
+        <button type="submit" class="btn btn-warning btn-block mb-3">S'enregistrer</button>
     {{ form_end(registrationForm) }}
+
+</div>
+
 
 {% endblock %}

@@ -101,9 +101,15 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $user = $this->getUser();
+
             if($form->getData()->getBeneficiary()->getState() !== 'Validé'){
                 $this->addFlash('error', 'Le bénéficiaire n\'a pas encore été validé. Veuillez attendre la confirmation de votre conseiller');
-                return $this->redirectToRoute('transfert_new');
+                return $this->redirectToRoute('app_user_transfert_new');
+            }
+            if($form->getData()->getAmount() > $user->getAccount()){
+                $this->addFlash('error', 'Vous ne disposez pas de la somme nécessaire pour effectuer ce virement');
+                return $this->redirectToRoute('app_user_transfert_new');
             }
             $user = $this->getUser();
             $transfert->setSender($user);
@@ -128,7 +134,7 @@ class UserController extends AbstractController
     /**
      * @Route("/transferts/list", name="app_user_transfert_index", methods={"GET"})
      */
-    public function userIndex(TransfertRepository $transfertRepository): Response
+    public function transfertsIndex(TransfertRepository $transfertRepository): Response
     {
         $user= $this->getUser();
         return $this->render('transfert/index.html.twig', [

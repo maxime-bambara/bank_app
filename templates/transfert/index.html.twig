@@ -3,33 +3,45 @@
 {% block title %}Historique{% endblock %}
 
 {% block body %}
-<div class="container mt-5 mb-5 p-5 rounded text-center" id="home-conteneur">
+<div class="container mt-5 mb-5 p-5 rounded" id="home-conteneur">
 
-    <h1 class="mb-3">Historique des virements</h1>
+    <h1 class="mb-3 text-center">Historique des virements</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Montant</th>
-                <th>Bénéficiaire</th>
-                <th>Infos</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for transfert in transferts %}
-            <tr>
-                <td>{{ transfert.amount }}</td>
-                <td>{{transfert.beneficiary.wording}}</td>
-                <td><a href="{{ path('app_user_transfert_show', {'id': transfert.id}) }}">Infos</a></td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">Aucun transfert trouvé</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div class="row justify-content-center">
+        <div class="col-auto">
+            <table class="table text-center table-responsive">
+                <thead>
+                    <tr>
+                        <th class="align-middle">Montant</th>
+                        <th class="align-middle">Bénéficiaire</th>
+                        <th class="align-middle">Infos</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for transfert in transferts %}
+                    <tr>
+                        <td class="align-middle">{{ transfert.amount }}</td>
+                        <td class="align-middle">{{transfert.beneficiary.wording}}</td>
+                        <td class="align-middle"><a href="{{ path('app_user_transfert_show', {'id': transfert.id}) }}">Infos</a></td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="3">Aucun transfert trouvé</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row justify-content-center mt-2">
+        <div class="col-auto">
+            <a href="{{ path('app_user_transfert_new') }}" class="btn btn-warning text-center" role="button">Nouveau virement</a>
+        </div>
+        <div class="col-auto">
+            <a href="{{ path('app_user_home') }}" class="btn btn-warning" role="button">Retour à l'accueil</a>        
+        </div>
+    </div>
 
-    <a href="{{ path('app_user_transfert_new') }}" class="btn btn-warning" role="button">Nouveau virement</a>
 </div>
+
 {% endblock %}

@@ -3,22 +3,29 @@
 {% block title %}Beneficiary index{% endblock %}
 
 {% block body %}
+{{ include('banker/_nav.html.twig') }}
+
+<div class="container text-center">
     <h1>Beneficiary index</h1>
 
-    <table class="table">
+    <table class="table table-responsive">
         <thead>
             <tr>
+                <th>Attribué à</th>
                 <th>LastName</th>
                 <th>FirstName</th>
                 <th>Libellé</th>
                 <th>Iban</th>
-                <th>Etat de la demande<th>
-                <th>actions</th>
+                <th>Client</th>
+                <th>Etat de la demande</th>
+                <th>Infos</th>
+                <th>Validation</th>
             </tr>
         </thead>
         <tbody>
         {% for beneficiary in beneficiaries %}
             <tr>
+                <td>{{beneficiary.sender.banker.username}}</td>
                 <td>{{ beneficiary.lastName }}</td>
                 <td>{{ beneficiary.firstName }}</td>
                 <td>{{ beneficiary.wording }}</td>
@@ -27,8 +34,8 @@
                 <td>{{ beneficiary.state }}</td>
                 <td>
                     <a href="{{ path('app_banker_beneficiary_show', {'id': beneficiary.id}) }}">Voir les détails</a>
-                    <a href="{{ path('app_banker_beneficiary_edit', {'id': beneficiary.id}) }}">Valider la demande</a>
                 </td>
+                <td><a href="{{ path('app_banker_beneficiary_edit', {'id': beneficiary.id}) }}" class="btn btn-warning" role="button">Valider la demande</a></td>
             </tr>
         {% else %}
             <tr>
@@ -37,4 +44,5 @@
         {% endfor %}
         </tbody>
     </table>
+</div>
 {% endblock %}

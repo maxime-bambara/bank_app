@@ -1,26 +1,24 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Beneficiary{% endblock %}
+{% block title %}Bénéficiaire{% endblock %}
 
 {% block body %}
-    <h1>Beneficiary</h1>
+{{ include('banker/_nav.html.twig') }}
+<div class="container text-center">
+    <h1>Bénéficiaire n° {{beneficiary.id}}</h1>
 
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ beneficiary.id }}</td>
-            </tr>
-            <tr>
-                <th>LastName</th>
+                <th>Nom de famille</th>
                 <td>{{ beneficiary.lastName }}</td>
             </tr>
             <tr>
-                <th>FirstName</th>
+                <th>Prénom</th>
                 <td>{{ beneficiary.firstName }}</td>
             </tr>
             <tr>
-                <th>Wording</th>
+                <th>Libellé</th>
                 <td>{{ beneficiary.wording }}</td>
             </tr>
             <tr>
@@ -28,15 +26,24 @@
                 <td>{{ beneficiary.iban }}</td>
             </tr>
             <tr>
-                <th>Sender</th>
+                <th>N° de compte affilié</th>
+                <td>{{ beneficiary.sender.accountId }}</td>
+            </tr>
+            <tr>
+                <th>Mail compte affilié</th>
                 <td>{{ beneficiary.sender.email }}</td>
+            </tr>
+            <tr>
+                <th>Nombre de virement attribué</th>
+                <td>{{ beneficiary.transferts.values| length }}</td>
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('app_banker_beneficiary_index') }}">back to list</a>
+    <a href="{{ path('app_banker_beneficiary_index') }}">Retour à la liste</a><br>
 
-    <a href="{{ path('app_banker_beneficiary_edit', {'id': beneficiary.id}) }}">edit</a>
+    <a href="{{ path('app_banker_beneficiary_edit', {'id': beneficiary.id}) }}" class="btn btn-warning m-2" role="button">Valider la demande</a>
 
     {{ include('beneficiary/_delete_form.html.twig') }}
+</div>
 {% endblock %}

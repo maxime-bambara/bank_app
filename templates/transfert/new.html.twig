@@ -9,6 +9,8 @@
 
         {{ include('transfert/_form.html.twig') }}
 
-        <a href="{{ path('app_user_transfert_index') }}" class="btn btn-warning" role="button">Retour à la liste des virements</a>
+        <a href="{{ path('app_user_transfert_index') }}" class="btn btn-warning mt-3" role="button">Historique des virements</a>
+        <a href="{{ path('app_user_home') }}" class="btn btn-warning mt-3" role="button">Retour à l'accueil</a>        
+
     </div>
 {% endblock %}

@@ -8,7 +8,8 @@
         <h1>Nouvelle demande d'ajoût de bénéficiaire</h1>
 
         {{ include('beneficiary/_form.html.twig') }}
-        <a href="{{ path('app_user_beneficiaries_index') }}" class="btn btn-warning" role="button">Retour à la liste des bénéficiaires</a>
+        <a href="{{ path('app_user_beneficiaries_index') }}" class="btn btn-warning" role="button">Liste des bénéficiaires</a>
+        <a href="{{ path('app_user_home') }}" class="btn btn-warning" role="button">Retour à l'accueil</a>        
     </div>
 
 {% endblock %}

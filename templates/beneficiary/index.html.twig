@@ -6,32 +6,43 @@
 <div class="container mt-5 mb-5 p-5 rounded" id="home-conteneur">
     <h1 class="text-center mb-3">Liste de vos bénéficiaires</h1>
 
-    <table class="table text-center">
-        <thead>
-            <tr>
-                <th>Nom</th>
-                <th>Prénom</th>
-                <th>Libellé</th>
-                <th>Iban</th>
-                <th>Statut de Validation</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for beneficiary in beneficiaries %}
-            <tr>
-                <td>{{ beneficiary.lastName }}</td>
-                <td>{{ beneficiary.firstName }}</td>
-                <td>{{ beneficiary.wording }}</td>
-                <td>{{ beneficiary.iban }}</td>
-                <td>{{ beneficiary.state }}</td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">Aucun bénéficiaires trouvé</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    <a href="{{ path('app_user_beneficiary_new') }}" class="btn btn-warning" role="button">Faire une nouvelle demande d'ajoût de bénéficiaire</a>
+    <div class="row justify-content-center">
+        <div class="col-auto">
+            <table class="table text-center table-responsive">
+                <thead>
+                    <tr>
+                        <th class="align-middle">Nom</th>
+                        <th class="align-middle">Prénom</th>
+                        <th class="align-middle">Libellé</th>
+                        <th class="align-middle">Iban</th>
+                        <th class="align-middle">Statut de Validation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for beneficiary in beneficiaries %}
+                    <tr>
+                        <td class="align-middle">{{ beneficiary.lastName }}</td>
+                        <td class="align-middle">{{ beneficiary.firstName }}</td>
+                        <td class="align-middle">{{ beneficiary.wording }}</td>
+                        <td class="align-middle">{{ beneficiary.iban }}</td>
+                        <td class="align-middle">{{ beneficiary.state }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="6">Aucun bénéficiaire trouvé</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row justify-content-center mt-2">
+        <div class="col-auto">
+            <a href="{{ path('app_user_beneficiary_new') }}" class="btn btn-warning" role="button">Faire une nouvelle demande d'ajoût de bénéficiaire</a>
+        </div>
+        <div class="col-auto">
+            <a href="{{ path('app_user_home') }}" class="btn btn-warning" role="button">Retour à l'accueil</a>        
+        </div>
+    </div>
 <div>
 {% endblock %}

@@ -3,6 +3,7 @@
 {% block title %}Edit Banker{% endblock %}
 
 {% block body %}
+{{ include('banker/_nav.html.twig') }}
     <h1>Edit Banker</h1>
 
     {{ include('banker/_form.html.twig', {'button_label': 'Update'}) }}

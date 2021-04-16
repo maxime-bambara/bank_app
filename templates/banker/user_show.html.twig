@@ -3,11 +3,9 @@
 {% block title %}User{% endblock %}
 
 {% block body %}
+{{ include('banker/_nav.html.twig') }}
 
-<div id="warning-message">
-    this website is only viewable in landscape mode
-</div>
-<div class="container" id="wrapper">
+<div class="container text-center">
     <h1>N° de compte {{user.accountId}}</h1>
 
     <table class="table">
@@ -63,10 +61,21 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_user_index') }}">Retour à la liste</a><br>
-    <a href="{{ path('app_user_edit', {'id': user.id}) }}">Valider le compte</a>
+    <div class="row justify-content-center">
+        <div class="col-auto">
+            <a href="{{ path('app_user_index') }}" class="btn btn-warning mt-5">Retour à la liste</a><br>
+        </div>
+        <div class="col-auto">
+            <a href="{{ path('app_user_edit', {'id': user.id}) }}" class="btn btn-warning mt-5">Valider le compte</a>
+        </div>
+    </div>
 
-    {{ include('user/_delete_form.html.twig') }}
+    <div class="row justify-content-center">
+        <div class="col-auto">
+            {{ include('user/_delete_form.html.twig') }}
+        </div>
+    </div>
+    
 </div>
 {% endblock %}
 

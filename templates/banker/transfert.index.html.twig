@@ -3,11 +3,15 @@
 {% block title %}Index des virements{% endblock %}
 
 {% block body %}
+{{ include('banker/_nav.html.twig') }}
+<div class="container text-center">
+
     <h1>Transfert index</h1>
 
-    <table class="table text-center">
+    <table class="table">
         <thead>
             <tr>
+                <th>Conseiller</th>
                 <th>Montant</th>
                 <th>N° de compte de l'envoi</th>
                 <th>Bénéficiaire</th>
@@ -17,6 +21,7 @@
         <tbody>
         {% for transfert in transferts %}
             <tr>
+                <td>{{transfert.sender.banker.username}}</td>
                 <td>{{ transfert.amount }}</td>
                 <td>{{transfert.sender.accountId}}</td>
                 <td>{{transfert.beneficiary.iban}}</td>
@@ -24,9 +29,10 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="3">Aucun transfert trouvé</td>
+                <td colspan="3">Aucun virement trouvé</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
+</div>
 {% endblock %}
