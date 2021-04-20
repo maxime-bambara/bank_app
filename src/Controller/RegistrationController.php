@@ -57,40 +57,4 @@ class RegistrationController extends AbstractController
             'registrationForm' => $form->createView(),
         ]);
     }
-
-    /**
-     * @Route("/banker/register", name="app_banker_register")
-     */
-    public function registerBanker(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, BankerLoginFormAuthenticator $authenticator): Response
-    {
-        $banker = new Banker();
-        $form = $this->createForm(BankerRegistrationFormType::class, $banker);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            // encode the plain password
-            $banker->setPassword(
-                $passwordEncoder->encodePassword(
-                    $banker,
-                    $form->get('password')->getData()
-                )
-            );
-
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($banker);
-            $entityManager->flush();
-            // do anything else you need here, like send an email
-
-            return $guardHandler->authenticateUserAndHandleSuccess(
-                $banker,
-                $request,
-                $authenticator,
-                'banker' // firewall name in security.yaml
-            );
-        }
-
-        return $this->render('registration/banker.register.html.twig', [
-            'registrationForm' => $form->createView(),
-        ]);
-    }
 }
