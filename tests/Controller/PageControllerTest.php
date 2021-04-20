@@ -14,4 +14,30 @@ class PageControllerTest extends WebTestCase
 
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
     }
+
+    public function testLoginPage(): void
+    {
+        $client = static::createClient();
+        $client->request('GET', '/login');
+
+        $this->assertResponseStatusCodeSame(Response::HTTP_OK);
+    }
+
+    public function testRegisterPage(): void
+    {
+        $client = static::createClient();
+        $client->request('GET', '/register');
+
+        $this->assertResponseStatusCodeSame(Response::HTTP_OK);
+    }
+
+    public function testBankerLoginPage(): void
+    {
+        $client = static::createClient();
+        $client->request('GET', '/banker/login');
+
+        $this->assertResponseStatusCodeSame(Response::HTTP_OK);
+    }
+
+    
 }
