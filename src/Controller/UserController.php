@@ -40,6 +40,11 @@ class UserController extends AbstractController
     public function beneficiariesIndex(BeneficiaryRepository $beneficiaryRepository): Response
     {
         $user= $this->getUser();
+        if($user->getState() !== 'Validé'){
+            return $this->render('home/user.untreated.home.html.twig', [
+                'user' => $user,
+            ]);  
+        }
         return $this->render('beneficiary/index.html.twig', [
             'beneficiaries' => $beneficiaryRepository->findByUsers($user),
         ]);
@@ -50,6 +55,12 @@ class UserController extends AbstractController
      */
     public function new(Request $request): Response
     {
+        $user= $this->getUser();
+        if($user->getState() !== 'Validé'){
+            return $this->render('home/user.untreated.home.html.twig', [
+                'user' => $user,
+            ]);  
+        }
         $beneficiary = new Beneficiary();
         $beneficiary->setSender($this->getUser());
         $form = $this->createForm(BeneficiaryType::class, $beneficiary);
@@ -74,6 +85,12 @@ class UserController extends AbstractController
      */
     public function transfertShow(Transfert $transfert): Response
     {
+        $user= $this->getUser();
+        if($user->getState() !== 'Validé'){
+            return $this->render('home/user.untreated.home.html.twig', [
+                'user' => $user,
+            ]);  
+        }
         return $this->render('transfert/show.html.twig', [
             'transfert' => $transfert,
         ]);
@@ -84,6 +101,12 @@ class UserController extends AbstractController
      */
     public function transfertNew(Request $request): Response
     {
+        $user= $this->getUser();
+        if($user->getState() !== 'Validé'){
+            return $this->render('home/user.untreated.home.html.twig', [
+                'user' => $user,
+            ]);  
+        }
         $transfert = new Transfert();
         $form = $this->createForm(TransfertType::class, $transfert);
         $form->handleRequest($request);
@@ -124,6 +147,12 @@ class UserController extends AbstractController
      */
     public function transfertsIndex(TransfertRepository $transfertRepository): Response
     {
+        $user= $this->getUser();
+        if($user->getState() !== 'Validé'){
+            return $this->render('home/user.untreated.home.html.twig', [
+                'user' => $user,
+            ]);  
+        }
         $user= $this->getUser();
         return $this->render('transfert/index.html.twig', [
             'transferts' => $transfertRepository->findByUsers($user),
