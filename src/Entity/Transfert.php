@@ -15,7 +15,7 @@ class Transfert
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", name="transfert_id")
      */
     private $id;
 
@@ -27,13 +27,13 @@ class Transfert
 
     /**
      * @ORM\ManyToOne(targetEntity=Beneficiary::class, inversedBy="transferts")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, name="beneficiary_id" ,referencedColumnName="beneficiary_id")
      */
     private $beneficiary;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="transferts")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, name="user_id" ,referencedColumnName="user_id")
      */
     private $sender;
 

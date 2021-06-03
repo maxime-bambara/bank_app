@@ -18,7 +18,7 @@ class Banker implements UserInterface
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", name="banker_id")
      */
     private $id;
 

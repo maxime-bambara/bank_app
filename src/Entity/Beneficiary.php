@@ -17,7 +17,7 @@ class Beneficiary
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", name="beneficiary_id")
      */
     private $id;
 
@@ -56,7 +56,7 @@ class Beneficiary
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="beneficiaries")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, name="user_id" ,referencedColumnName="user_id")
      */
     private $sender;
 

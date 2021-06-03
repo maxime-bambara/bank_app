@@ -28,7 +28,7 @@ class User implements UserInterface, Serializable
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", name="user_id")
      */
     private $id;
 
@@ -152,6 +152,7 @@ class User implements UserInterface, Serializable
 
     /**
      * @ORM\ManyToOne(targetEntity=Banker::class, inversedBy="customers")
+     * @ORM\JoinColumn(nullable=false, name="banker_id" ,referencedColumnName="banker_id")
      */
     private $banker;
 
